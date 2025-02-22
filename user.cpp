@@ -1,4 +1,10 @@
 #include "user.h"
+#include "product.h"
+#include "book.h"
+#include "movie.h"
+#include "clothing.h"
+#include <deque>
+#include <iostream>
 using namespace std;
 
 User::User() : name_("unknown"), balance_(0.0), type_(1)
@@ -16,6 +22,29 @@ User::~User()
 
 }
 
+deque<Product*> User::getCart() {
+    return cart_;
+}
+
+// void push_to_cart(Product* product); 
+void User::push_to_cart(Product* product) {
+    cart_.push_back(product);
+}
+
+// given a product, remove that product from the cart
+// uses deque erase method
+// identify position of that product in the cart
+// erase it
+void User::remove_from_cart(Product* product) {
+    // since called by buy_cart no need to consider that 
+    // it might not be in cart
+    for (deque<Product*>::iterator it = cart_.begin(); it != cart_.end(); ++it) {
+        if (*it == product) {
+            cart_.erase(it);
+            return;
+        }     
+    }
+}
 
 std::string User::getName() const
 {
